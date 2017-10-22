@@ -10,24 +10,6 @@ import Foundation
 typealias APIRequestResponse = (Data?, URLResponse?, Error?) -> ()
 struct API {
     
-    private struct Constants {
-        static let APPID = "6a700a1e919dc96b0a98901c9f4bec47"
-        static let baseURL = "http://api.openweathermap.org/"
-    }
-    
-    enum ResourcePath: String {
-        case Forecast = "data/2.5/forecast/daily?q=paris&mode=Json&units=metric&cnt=16&appid="
-        case Icon = "img/w/"
-    
-        var path: String {
-            return Constants.baseURL + rawValue
-        }
-        
-        var forecastpath: String {
-            return Constants.baseURL + rawValue + Constants.APPID
-        }
-    }
-    
     static func loadData(fromUrl url:String? , response : @escaping APIRequestResponse) {
         
         guard let url  = url ,  let requestURL = URL(string: url) else {
@@ -61,6 +43,35 @@ struct API {
         task.resume()
        
     
+    }
+}
+
+extension API {
+    
+    private struct Constants {
+        static let APPID = ""
+        static let baseURL = ""
+    }
+    
+    enum ResourcePath: String {
+        case service = ""
+        
+        var path: String {
+            return Constants.baseURL + rawValue
+        }
+        
+        var forecastpath: String {
+            return Constants.baseURL + rawValue + Constants.APPID
+        }
+    }
+    
+    static func generateCurrentRequestURL() -> URL? {
+        guard var components = URLComponents(string:"") else {
+            return nil
+        }
+        
+        components.queryItems = [URLQueryItem(name:"lat", value:"")]
+        return components.url
     }
 }
 
